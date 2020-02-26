@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <property name="LOG_PATH" value="/var/log/spring-boot-webapp"/>
+  <property name="LOG_FILENAME" value="spring-boot-webapp"/>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %-5level %logger{36}.%M - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="TRACE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_PATH}/${LOG_FILENAME}_trace.log</file>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <Pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</Pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_PATH}/${LOG_FILENAME}_trace_%d{dd-MM-yyyy}.log</fileNamePattern>
+    </rollingPolicy>    
+  </appender>
+
+  <appender name="REQUEST_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_PATH}/${LOG_FILENAME}_request.log</file>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <Pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</Pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_PATH}/${LOG_FILENAME}_request_%d{dd-MM-yyyy}.log</fileNamePattern>
+    </rollingPolicy>    
+  </appender>
+
+  <root level="debug">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="TRACE_FILE" />
+  </root>
+
+  <logger name="com.skynet.example.config.CustomRequestLoggingFilter" level="debug" additivity="false">
+    <appender-ref ref="REQUEST_FILE" />
+  </logger>
+  
+  <logger name="org.springframework.web.servlet.PageNotFound" level="debug" additivity="false">
+    <appender-ref ref="REQUEST_FILE" />
+  </logger>
+
+  <logger name="org.springframework" level="INFO"/>
+  <logger name="org.hibernate" level="INFO"/>
+  <logger name="org.apache" level="INFO"/>
+  <logger name="com.hazelcast" level="OFF"/>
+  <logger name="com.zaxxer" level="INFO"/>
+  <logger name="springfox" level="OFF"/>
+
+</configuration>

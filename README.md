@@ -1,4 +1,4 @@
-# Spring Boot Webapp + JWT + Lombok
+# Spring Boot Webapp + Hibernate + JWT + Lombok
 
 ## Getting Started
 
